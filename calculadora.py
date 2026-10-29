@@ -2,7 +2,7 @@
 =============================================================================
 Calculadora Básica em Python
 Autor: Criado para iniciantes em programação
-Descrição: Realiza as quatro operações fundamentais (+, -, *, /)
+Descrição: Realiza operações fundamentais (+, -, *, /, %)
            através de um menu interativo no terminal.
 =============================================================================
 """
@@ -32,6 +32,14 @@ def dividir(a, b):
     return a / b
 
 
+def calcular_porcentagem(valor, percentual):
+    """
+    Calcula a porcentagem de um valor.
+    Exemplo: 15% de 200 = (200 * 15) / 100 = 30.
+    """
+    return (valor * percentual) / 100
+
+
 def exibir_menu():
     """Exibe as opções disponíveis para o usuário."""
     print("\n" + "=" * 32)
@@ -41,7 +49,8 @@ def exibir_menu():
     print(" 2 - Subtração (-)")
     print(" 3 - Multiplicação (*)")
     print(" 4 - Divisão (/)")
-    print(" 5 - Sair")
+    print(" 5 - Porcentagem (%)")
+    print(" 6 - Sair")
     print("=" * 32)
 
 
@@ -64,22 +73,26 @@ def main():
 
     while True:
         exibir_menu()
-        opcao = input("Escolha uma opção (1 a 5): ").strip()
+        opcao = input("Escolha uma opção (1 a 6): ").strip()
 
-        # 1. Verifica se o usuário escolheu sair
-        if opcao == "5":
+        # 1. Verifica se o usuário escolheu sair (agora é a opção 6)
+        if opcao == "6":
             print("\nObrigado por usar a calculadora! Bons estudos na programação.")
             break
 
-        # 2. Verifica se a opção digitada é válida (1, 2, 3 ou 4)
-        if opcao not in ["1", "2", "3", "4"]:
-            print("\nOpção inválida! Escolha um número entre 1 e 5.")
+        # 2. Verifica se a opção digitada é válida (1 a 5)
+        if opcao not in ["1", "2", "3", "4", "5"]:
+            print("\nOpção inválida! Escolha um número entre 1 e 6.")
             continue
 
-        # 3. Coleta os dois números com segurança
-        print("\nDigite os números para a operação:")
-        num1 = obter_numero("Digite o primeiro número: ")
-        num2 = obter_numero("Digite o segundo número: ")
+        # 3. Coleta os números com mensagens adequadas para cada operação
+        print("\nDigite os valores para o cálculo:")
+        if opcao == "5":
+            num1 = obter_numero("Digite o valor base: ")
+            num2 = obter_numero("Digite a porcentagem (%): ")
+        else:
+            num1 = obter_numero("Digite o primeiro número: ")
+            num2 = obter_numero("Digite o segundo número: ")
 
         # 4. Realiza a operação correspondente à opção escolhida
         print("\n" + "-" * 28)
@@ -95,10 +108,12 @@ def main():
         elif opcao == "4":
             resultado = dividir(num1, num2)
             if isinstance(resultado, str):
-                # Se for texto, é a mensagem de erro da divisão por zero
                 print(resultado)
             else:
                 print(f"Resultado: {num1} / {num2} = {resultado}")
+        elif opcao == "5":
+            resultado = calcular_porcentagem(num1, num2)
+            print(f"Resultado: {num2}% de {num1} = {resultado}")
         print("-" * 28)
 
         # 5. Pergunta se deseja realizar mais um cálculo
@@ -108,6 +123,5 @@ def main():
             break
 
 
-# Garante que o script só execute quando chamado diretamente no terminal
 if __name__ == "__main__":
     main()
